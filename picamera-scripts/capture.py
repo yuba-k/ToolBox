@@ -55,7 +55,7 @@ def main():
         dis = input("距離：")+"m"
 
         for v in config["pic_size"]:
-            path = fr"/home/pi/img/{v[0]}x{v[1]}"
+            path = fr"{config['save_path'][0]}{v[0]}x{v[1]}"
             img = camera.cap(w=int(v[0]),h=int(v[1]))
             camera.save(img,path,dis)
         ans = input("続けて撮影しますか?<Y ro N>")
