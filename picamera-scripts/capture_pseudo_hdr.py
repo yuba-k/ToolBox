@@ -77,7 +77,7 @@ def main():
         for v in config["pic_size"]:
             path = fr"{config['save_path'][0]}{v[0]}x{v[1]}"
             for i in range(2):
-                img = camera.cap(w = int(v[0]), h = int(v[1]), mode = i)
+                img = camera.capture_pseudo_hdr_image(w = int(v[0]), h = int(v[1]), mode = i)
                 img_list.append(img)
             # Mertensを用いて露光を統合
             res_mertens = merge_mertens.process(img_list)
