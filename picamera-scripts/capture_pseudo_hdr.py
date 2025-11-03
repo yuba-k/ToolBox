@@ -16,9 +16,9 @@ class Camera():
 
     def capture_pseudo_hdr_image(self,h,w,mode):
         self.picam.configure(self.picam.create_still_configuration(main={"format":"RGB888","size":(w,h)}))
-        if mode == 1:
+        if mode == 0:
             controls.set_controls({"AeExposureMode":controls.AeExposureMode.Short})
-        elif mode == 2:
+        elif mode == 1:
             controls.set_controls({"AeExposureMode":controls.AeExposureMode.Normal})
         else:
             controls.set_controls({"AeExposureMode":controls.AeExposureMode.Long})
