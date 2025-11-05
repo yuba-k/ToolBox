@@ -15,13 +15,12 @@ class Camera():
             raise
 
     def capture_pseudo_hdr_image(self,h,w,mode):
-        self.picam.configure(self.picam.create_still_configuration(main={"format":"RGB888","size":(w,h)}))
         if mode == 0:
-            controls.set_controls({"AeExposureMode":controls.AeExposureMode.Short})
+            self.picam.set_controls({"AeExposureMode":controls.AeExposureModeEnum.Short})
         elif mode == 1:
-            controls.set_controls({"AeExposureMode":controls.AeExposureMode.Normal})
+            self.picam.set_controls({"AeExposureMode":controls.AeExposureModeEnum.Normal})
         else:
-            controls.set_controls({"AeExposureMode":controls.AeExposureMode.Long})
+            self.picam.set_controls({"AeExposureMode":controls.AeExposureModeEnum.Long})
         try:
             self.picam.start()
             im = self.picam.capture_array()
@@ -44,17 +43,17 @@ class Camera():
         now = datetime.datetime.now()
         for i, img in enumerate(im):
             if i == 0:
-                cv2.imwrite(f"{path}/jpg/{dis + '_short_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",im)
-                cv2.imwrite(f"{path}/png/{dis + '_short_' + now.strftime('%Y%m%d_%H%M%S')}.png",im)
+                cv2.imwrite(f"{path}/jpg/{dis + '_short_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
+                cv2.imwrite(f"{path}/png/{dis + '_short_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
             elif i == 1:
-                cv2.imwrite(f"{path}/jpg/{dis + '_normal_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",im)
-                cv2.imwrite(f"{path}/png/{dis + '_normal_' + now.strftime('%Y%m%d_%H%M%S')}.png",im)
+                cv2.imwrite(f"{path}/jpg/{dis + '_normal_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
+                cv2.imwrite(f"{path}/png/{dis + '_normal_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
             elif i == 2:
-                cv2.imwrite(f"{path}/jpg/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",im)
-                cv2.imwrite(f"{path}/png/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.png",im)
+                cv2.imwrite(f"{path}/jpg/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
+                cv2.imwrite(f"{path}/png/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
             else:
-                cv2.imwrite(f"{path}/jpg/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",im)
-                cv2.imwrite(f"{path}/png/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.png",im)
+                cv2.imwrite(f"{path}/jpg/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
+                cv2.imwrite(f"{path}/png/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
 
     def disconnect(self):
         self.picam.close()
@@ -75,8 +74,11 @@ def main():
         dis = input("距離：")+"m"
 
         for v in config["pic_size"]:
+            img_list.clear()#画像リストの開放
             path = fr"{config['save_path'][0]}{v[0]}x{v[1]}"
-            for i in range(2):
+            #PiCameraの設定
+            camera.picam.configure(camera.picam.create_still_configuration(main={"format":"RGB888","size":(int(v[0]),int(v[1]))}))
+            for i in range(3):
                 img = camera.capture_pseudo_hdr_image(w = int(v[0]), h = int(v[1]), mode = i)
                 img_list.append(img)
             # Mertensを用いて露光を統合
