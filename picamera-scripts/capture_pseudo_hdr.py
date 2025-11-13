@@ -52,8 +52,8 @@ class Camera():
                 cv2.imwrite(f"{path}/jpg/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
                 cv2.imwrite(f"{path}/png/{dis + '_long_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
             else:
-                cv2.imwrite(f"{path}/jpg/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
-                cv2.imwrite(f"{path}/png/{dis + '_hsv_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
+                cv2.imwrite(f"{path}/jpg/{dis + '_hdr_' + now.strftime('%Y%m%d_%H%M%S')}.jpg",img)
+                cv2.imwrite(f"{path}/png/{dis + '_hdr_' + now.strftime('%Y%m%d_%H%M%S')}.png",img)
 
     def disconnect(self):
         self.picam.close()
