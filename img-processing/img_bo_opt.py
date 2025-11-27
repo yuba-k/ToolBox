@@ -3,6 +3,7 @@ import cv2
 import random
 import numpy as np
 import optuna
+import optuna.samplers as sampler
 import logging
 
 logger = logging.getLogger(__name__)
@@ -113,14 +114,14 @@ def fitness(trial):
 
     it_erode = trial.suggest_int("it_erode",1,4)
     area_thresh = trial.suggest_int("area_thresh",100,3000)
-    h1_min = trial.suggest_int("h1_min",0,30)
-    h1_max = trial.suggest_int("h1_max",h1_min,30)
-    h2_min = trial.suggest_int("h2_min",150,170)
-    h2_max = trial.suggest_int("h2_max",h2_min,170)
-    s_min = trial.suggest_int("s_min",0,255)
-    s_max = trial.suggest_int("s_max",s_min,255)
-    v_min = trial.suggest_int("v_min",0,255)
-    v_max = trial.suggest_int("v_max",v_min,255)
+    h1_min = trial.suggest_int("h1_min",0,15)
+    h1_max = trial.suggest_int("h1_max",16,30)
+    h2_min = trial.suggest_int("h2_min",150,165)
+    h2_max = trial.suggest_int("h2_max",166,179)
+    s_min = trial.suggest_int("s_min",0,150)
+    s_max = trial.suggest_int("s_max",151,255)
+    v_min = trial.suggest_int("v_min",0,150)
+    v_max = trial.suggest_int("v_max",151,255)
 
     for r_name, m_name in zip(rawlist, masklist):
         rawimgs.append(cv2.imread(rawpath+r_name))
@@ -146,7 +147,8 @@ def fitness(trial):
 
 if __name__ == "__main__":
     #preparation(rawimgpath="img-processing/currentdatasets/raw",maskimgpath="img-processing/currentdatasets/mask/")
-    study = optuna.create_study(direction="maximize")
+    sample = sampler.CmaEsSampler()
+    study = optuna.create_study(direction="maximize",sampler=sample)
     while True:
         study.optimize(fitness,n_trials=50)
         best_value = study.best_value
@@ -158,6 +160,8 @@ if __name__ == "__main__":
     print("Best Trial:")
     trial = study.best_trial
     print(f"Value:{trial.value}")
+    logger.info(f"value:{trial.value}")
     print("Parms:")
     for key, value in trial.params.items():
         print(f"{key}:{value}")
+        logger.info(f"{key}:{value}")
