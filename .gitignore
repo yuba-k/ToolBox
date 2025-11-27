@@ -1,1 +1,5 @@
 picamera-scripts/data
+img-processing/datasets/
+img-processing/currentdatasets/
+img-processing/debug
+img-processing/*.log
