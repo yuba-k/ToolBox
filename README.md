@@ -38,3 +38,7 @@ python3 capture.py
 ベイズ最適化による色検出HSV範囲最適化システム．
 ### 2-2.`current_mask.py`
 Yolo形式の正解データと画像から，`img_bo_opt.py`利用する正解データを生成するプログラム．
+
+## 3. 6-axis-sensor
+### 3-1. `gyro_angle.py`
+6軸センサ(lsm6ds33)からのデータを取得し，変化角度[°]を求めるプログラム．lsm6ds33のテスト用途で開発．
