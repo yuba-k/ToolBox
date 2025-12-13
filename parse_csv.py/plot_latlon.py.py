@@ -17,18 +17,23 @@ def main():
     args = parser.parse_args()
 
     try:
-        df = pd.read_csv(args.o,header=None,names=["lon","lat"])
+        df = pd.read_csv(args.o,header=None,names=["lon","lat"],dtype=float)
     except FileNotFoundError:
         print(f"{args.o}を開けませんでした．\nファイル名,パスが正しいことを確認してください")
         exit()
     df = df.dropna(how="any")
     plt.scatter(df["lon"],df["lat"],color="green")
     if args.g is not None:
-        plt.scatter(args.g[0],args.g[1],color="red")
+        plt.scatter(args.g[0],args.g[1],color="red",marker="*")
     plt.plot(df["lon"],df["lat"],color="green")
     plt.title(args.o)
     plt.xlabel("lon")
     plt.ylabel("lat")
+    print(min(df["lon"]))
+    plt.xticks(np.arange(min(df["lon"]),max(df["lon"]),(max(df["lon"])-min(df["lon"]))/5))
+    plt.yticks(np.arange(min(df["lat"]),max(df["lat"]),(max(df["lat"])-min(df["lat"]))/5))
+    if args.s:
+        plt.savefig(args.o.split(".")[0]+".png")
     plt.show()
     
 if __name__ == "__main__":
