@@ -24,10 +24,11 @@ def init():
     plt.title("Route History")
     plt.xlabel("lon")
     plt.ylabel("lat")
+    plt.grid()
 
 
 def draw_scatter(data, filename, goal_coordinates, saveFlag, displayFlag):
-    plt.scatter(data["lon"], data["lat"], color="green")
+    plt.scatter(data["lon"], data["lat"], color="green",marker=".")
     if goal_coordinates is not None:
         plt.scatter(goal_coordinates[0], goal_coordinates[1], color="red", marker="*")
     plt.plot(data["lon"], data["lat"], color="green")
