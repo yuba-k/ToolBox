@@ -3,3 +3,4 @@ img-processing/datasets/
 img-processing/currentdatasets/
 img-processing/debug
 img-processing/*.log
+parse_csv/*.png
