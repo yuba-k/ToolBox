@@ -58,7 +58,7 @@ def realtime_plot():
         while cnt < 10:
             data, _ = sock.recvfrom(1024)
             lon, lat = map(float,data.decode().split(","))
-            print(data)
+            print(data.decode())
             if lon_list[-1] != lon or lat_list[-1] != lat:
                 print("更新")
                 lon_list.append(lon); lat_list.append(lat)
