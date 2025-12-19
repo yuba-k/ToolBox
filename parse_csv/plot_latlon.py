@@ -1,6 +1,7 @@
 import argparse
 import os
 from pathlib import Path
+import requests
 import socket
 
 import matplotlib.pyplot as plt
@@ -47,27 +48,30 @@ def draw_scatter(data, filename, goal_coordinates, saveFlag, displayFlag):
     if displayFlag:
         plt.show()
 
-def realtime_plot():
-    cnt = 0
-    lon_list = []; lat_list = []
-    init_plot()
-    with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-        sock.bind(("0.0.0.0", 50000))
-        sock.settimeout(10)
-        print("初期設定完了")
-        while cnt < 10:
-            data, _ = sock.recvfrom(1024)
-            lon, lat = map(float,data.decode().split(","))
-            print(data.decode())
-            if lon_list[-1] != lon or lat_list[-1] != lat:
-                print("更新")
-                lon_list.append(lon); lat_list.append(lat)
-                plt.scatter(lon_list,lat_list,color="green",marker=".")
-                plt.plot(lon_list,lat_list,color="green")
-            else:
-                print("未更新")
-                cnt += 1
-            plt.pause(1)
+def realtime_plot(ip,port):
+    # cnt = 0
+    # lon_list = []; lat_list = []
+    # init_plot()
+    
+    # with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+    #     sock.bind(("0.0.0.0", 50000))
+    #     sock.settimeout(10)
+    #     print("初期設定完了")
+    #     while cnt < 10:
+    #         data, _ = sock.recvfrom(1024)
+    #         lon, lat = map(float,data.decode().split(","))
+    #         print(data.decode())
+    #         if lon_list[-1] != lon or lat_list[-1] != lat:
+    #             print("更新")
+    #             lon_list.append(lon); lat_list.append(lat)
+    #             plt.scatter(lon_list,lat_list,color="green",marker=".")
+    #             plt.plot(lon_list,lat_list,color="green")
+    #         else:
+    #             print("未更新")
+    #             cnt += 1
+    #         plt.pause(1)
+    res = requests.get(ip+":"+port)
+    print(res)
 
 
             
