@@ -4,3 +4,5 @@ img-processing/currentdatasets/
 img-processing/debug
 img-processing/*.log
 parse_csv/*.png
+6-axis-sensor/*.xlsx
+6-axis-sensor/*.csv
