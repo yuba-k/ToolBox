@@ -48,9 +48,9 @@ def draw_scatter(data, filename, goal_coordinates, saveFlag, displayFlag):
     if displayFlag:
         plt.show()
 
-def realtime_plot(ip,port):
+def realtime_plot(ip = "10.254.8.45",port = "5000"):
     # cnt = 0
-    # lon_list = []; lat_list = []
+    # lon_list = []; lat_list = []http://10.254.8.45:5000/get
     # init_plot()
     
     # with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -70,8 +70,10 @@ def realtime_plot(ip,port):
     #             print("未更新")
     #             cnt += 1
     #         plt.pause(1)
-    res = requests.get(ip+":"+port)
-    print(res)
+    url = "http://"+ip+":"+port+"/get"
+    print(url)
+    res = requests.get(url)
+    print(res.json())
 
 
             
