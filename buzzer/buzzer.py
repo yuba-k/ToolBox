@@ -10,6 +10,10 @@ tempo = 146
 note_length = 60/tempo
 
 pitch_dic = {
+        'C3':131,     'C#3':139,    'D3':147,
+        'D#3':155,    'E3':165,     'F3':175,
+        'F#3':185,    'G3':196,     'G#3':208,
+        'A3':220,
         'A#3': 233,   'B3': 246,    'C4': 261,
         'C#4': 277,   'D4': 293,    'D#4': 311,
         'E4': 329,    'F4': 349,    'F#4': 370,
@@ -28,6 +32,9 @@ pitch_dic = {
 duration_dic = {
     'whole': 1,            'half' : 0.5,
     'one-third' : 1/3,     'quarter' : 0.25,
+    'dotted_eighth':0.75,'rest_little':1/60,
+    'dotted_double':2.5,'double':2,
+    'dotted_whole':1.5
 }
 
 def init():
@@ -46,10 +53,24 @@ def buzz():
         music_Mario()
 
 def read_music(filename:str):
+    global tempo
     with open(filename, mode = "r") as f:
         reader = csv.reader(f)
         sheet = [row for row in reader]
-    print(sheet)
+    buzzer.start(0)
+    time.sleep(1)
+    buzzer.ChangeDutyCycle(50)
+    tempo = int(sheet[0][0])
+    sheet.pop(0)
+    for notes in sheet:
+        if notes == []:
+            return
+        note1, note2, note3,duration = notes
+        if note1 == 'rest':
+            rest(duration)
+        else:
+            triad(note1, note2, note3, duration)
+            rest("rest_little")
 
 def music_Mario():
     coard('C4', 'G4', 'one-third')
@@ -103,6 +124,18 @@ def coard(pitch1, pitch2, duration):
         if(note_length * duration_dic[duration] <= count*0.04):
             break
 
+def triad(pitch1, pitch2, pitch3, duration):
+    count = 0
+    while True:
+        buzzer.ChangeFrequency(pitch_dic[pitch1])
+        time.sleep(0.02)
+        buzzer.ChangeFrequency(pitch_dic[pitch2])
+        time.sleep(0.02)
+        buzzer.ChangeFrequency(pitch_dic[pitch3])
+        time.sleep(0.02)
+        count += 1
+        if(note_length * duration_dic[duration] <= count*0.06):
+            break
 
 def main():
     init()
