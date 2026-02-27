@@ -2,6 +2,7 @@
 #ゴール後ブザーを鳴らしゴールを周知する
 import RPi.GPIO as GPIO
 import time
+import csv
 
 buzzerpin=4
 
@@ -43,6 +44,12 @@ def buzz():
 
     for i in range(0, 5):
         music_Mario()
+
+def read_music(filename:str):
+    with open(filename, mode = "r") as f:
+        reader = csv.reader(f)
+        sheet = [row for row in reader]
+    print(sheet)
 
 def music_Mario():
     coard('C4', 'G4', 'one-third')
@@ -99,7 +106,8 @@ def coard(pitch1, pitch2, duration):
 
 def main():
     init()
-    buzz()
+    read_music("music.csv")
+    #buzz()
 
 if __name__ == "__main__":
     main()
