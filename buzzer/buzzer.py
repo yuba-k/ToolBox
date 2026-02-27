@@ -53,7 +53,7 @@ def buzz():
         music_Mario()
 
 def read_music(filename:str):
-    global tempo
+    global tempo, note_length
     with open(filename, mode = "r") as f:
         reader = csv.reader(f)
         sheet = [row for row in reader]
@@ -61,6 +61,7 @@ def read_music(filename:str):
     time.sleep(1)
     buzzer.ChangeDutyCycle(50)
     tempo = int(sheet[0][0])
+    note_lenght = 60/tempo
     sheet.pop(0)
     for notes in sheet:
         if notes == []:
