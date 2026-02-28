@@ -26,7 +26,9 @@ pitch_dic = {
         'C#6': 1108,  'D6': 1174,   'D#6': 1244,
         'E6': 1318,   'F6': 1396,   'F#6': 1480,
         'G6': 1568,   'G#6': 1661,  'A6': 1760,
-        'A#6': 1864,  'B6': 1975,   'C7': 2093
+        'A#6': 1864,  'B6': 1975,   'C7': 2093,
+        'C#7':1109,   'D7':1175,    'D#7':1245,
+        'E7':1319
     }
 
 duration_dic = {
@@ -76,6 +78,9 @@ def read_music(filename:str):
                 coard(note1, note2, duration)
             case '3':
                 triad(note1, note2, note3, duration)
+            case 'tempo':
+                tempo = int(note1)
+                note_length = 60/tempo
         rest("rest_little")
 
 def music_Mario():
