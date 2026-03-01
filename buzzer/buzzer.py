@@ -26,13 +26,15 @@ pitch_dic = {
         'C#6': 1108,  'D6': 1174,   'D#6': 1244,
         'E6': 1318,   'F6': 1396,   'F#6': 1480,
         'G6': 1568,   'G#6': 1661,  'A6': 1760,
-        'A#6': 1864,  'B6': 1975,   'C7': 2093
+        'A#6': 1864,  'B6': 1975,   'C7': 2093,
+        'C#7':1109,   'D7':1175,    'D#7':1245,
+        'E7':1319
     }
 
 duration_dic = {
     'whole': 1,            'half' : 0.5,
     'one-third' : 1/3,     'quarter' : 0.25,
-    'dotted_eighth':0.75,'rest_little':1/60,
+    'dotted_eighth':0.75,'rest_little':1/40,
     'dotted_double':2.5,'double':2,
     'dotted_whole':1.5
 }
@@ -61,17 +63,25 @@ def read_music(filename:str):
     time.sleep(1)
     buzzer.ChangeDutyCycle(50)
     tempo = int(sheet[0][0])
-    note_lenght = 60/tempo
+    note_length = 60/tempo
     sheet.pop(0)
     for notes in sheet:
         if notes == []:
             return
-        note1, note2, note3,duration = notes
-        if note1 == 'rest':
-            rest(duration)
-        else:
-            triad(note1, note2, note3, duration)
-            rest("rest_little")
+        mode, note1, note2, note3,duration = notes
+        match mode:
+            case 'rest':
+                rest(duration)
+            case '1':
+                note(note1,duration)
+            case '2':
+                coard(note1, note2, duration)
+            case '3':
+                triad(note1, note2, note3, duration)
+            case 'tempo':
+                tempo = int(note1)
+                note_length = 60/tempo
+        rest("rest_little")
 
 def music_Mario():
     coard('C4', 'G4', 'one-third')
