@@ -11,7 +11,7 @@ import threading
 class GYRO():
     def __init__(self):
         i2c = board.I2C()
-        self.sensor = LSM6DS33(i2c)
+        self.sensor = LSM6DS33(i2c, address=0x6B)
 
         self.sensor.gyro_data_rate = Rate.RATE_416_HZ
         self.sensor.gyro_range = GyroRange.RANGE_250_DPS

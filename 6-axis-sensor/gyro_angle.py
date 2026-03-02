@@ -5,7 +5,7 @@ import board
 from adafruit_lsm6ds.lsm6ds33 import LSM6DS33
 
 i2c = board.I2C()
-sensor = LSM6DS33(i2c)
+sensor = LSM6DS33(i2c, address=0x6B)
 
 print("3秒間の回転角度を計測します（X, Y, Z 軸）...")
 
