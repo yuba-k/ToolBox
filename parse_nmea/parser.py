@@ -76,7 +76,7 @@ def testmain():
     show_plt(satelites, latlon)
     
 def main():
-    with open("parse_nmea/nmeaLog.csv",mode="r") as f:
+    with open("nmeaLog2.csv",mode="r") as f:
         alllines = f.read()
         parsed, satelites, latlon = parser(alllines)
         show_plt(satelites, latlon)
