@@ -10,3 +10,5 @@ buzzer/*.csv
 stack_escape__programs
 *.csv
 parse_nmea/*.nma
+parse_nmea/text.txt
+Pose3DViewer
